@@ -71,6 +71,8 @@ function replacer(x){
 // TODO insert instead of append, in case it exists
 // addEmoticon :: Event -> IO ()
 function addEmoticon(e){
+    var is = images()
+
     while (true) {
         var k = prompt("Emoticon name?")
         if (k == null) break
@@ -80,41 +82,44 @@ function addEmoticon(e){
 
         log("Adding " + k + ": " + i)
 
-        var is = images()
         is[k] = i
 
-        localStorage[imgs] = JSON.stringify(is)
-
         var e = document.getElementById("emot_list")
+        var li = document.createElement("li")
         var img = document.createElement("img")
 
         img.title = k
         img.alt = k
         img.src = i
 
-        e.appendChild(img)
+        li.appendChild(img)
+        e.appendChild(li)
     }
+
+    localStorage[imgs] = JSON.stringify(is)
 }
 
 // removeEmoticon :: Event -> IO ()
 function removeEmoticon(e){
+    var is = images()
+
     while (true) {
         var k = prompt("Emoticon name?")
         if (k === null) break
 
         log("Removing " + k)
 
-        var is = images()
         delete is[k]
-
-        localStorage[imgs] = JSON.stringify(is)
 
         var e = document.getElementById("emot_list")
         var es = e.children
 
         for (var i = 0; i < es; i++)
-            if (es[i].title === k) es[i].parentNode.removeChild(es[i])
+            if (es[i].children[0].title === k)
+                es[i].parentNode.removeChild(es[i])
     }
+
+    localStorage[imgs] = JSON.stringify(is)
 }
 
 // thread :: IO ()
@@ -129,6 +134,8 @@ function post(){
     var is = images()
 
     for (var k in is) {
+        log("Adding emoticon " + k)
+
         var li = document.createElement("li")
         var img = document.createElement("img")
 
@@ -137,7 +144,7 @@ function post(){
         img.src = is[k]
 
         li.appendChild(img)
-        x.appendChild(li)
+        e.appendChild(li)
     }
 
     var w = document.getElementById("c_emot")
