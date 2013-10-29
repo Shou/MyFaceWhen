@@ -23,6 +23,19 @@ function log(x){
     console.log("MFW :: " + x)
 }
 
+function show(a){
+    if (a.name === "Array") return a.join(", ")
+}
+
+// keys :: Object a b -> [a]
+function keys(o){
+    var tmp = []
+
+    for (var k in o) tmp.push(k)
+
+    return tmp
+}
+
 // | No more Flydom!
 // speedcore :: String -> Obj -> Tree -> Elem
 function speedcore(tagname, attrs, childs){
@@ -133,6 +146,8 @@ function post(){
     var e = document.getElementById("emot_list")
     var is = images()
 
+    log(keys(is).length)
+
     for (var k in is) {
         log("Adding emoticon " + k)
 
@@ -170,9 +185,6 @@ function main(){
     if (window.location.pathname.split('/')[2] === "topic") thread()
     else if (window.location.pathname.split('/')[2] === "post") post()
 }
-
-log("penis")
-console.log("penis")
 
 main()
 
