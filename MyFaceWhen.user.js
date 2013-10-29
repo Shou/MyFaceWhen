@@ -61,7 +61,7 @@ function speedcore(tagname, attrs, childs){
 // images :: IO (Object String String)
 function images(){
     try {
-        return JSON.parse(localStorage[igms])
+        return JSON.parse(localStorage[imgs])
 
     } catch(e) {
         console.log(e)
