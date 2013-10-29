@@ -23,10 +23,6 @@ function log(x){
     console.log("MFW :: " + x)
 }
 
-function show(a){
-    if (a.name === "Array") return a.join(", ")
-}
-
 // keys :: Object a b -> [a]
 function keys(o){
     var tmp = []
@@ -146,8 +142,6 @@ function post(){
     var e = document.getElementById("emot_list")
     var is = images()
 
-    log(keys(is).length)
-
     for (var k in is) {
         log("Adding emoticon " + k)
 
@@ -175,6 +169,15 @@ function post(){
     ])
 
     w.appendChild(ui)
+
+    var txt = document.getElementById("c_post-text")
+    var btr = document.getElementById("c_postbtn")
+    var btn = btr.children[0].children[0]
+
+    // TODO make this more accurate
+    btn.addEventListener("click", function(e){
+        txt.value = replacer(txt.value)
+    })
 }
 
 
