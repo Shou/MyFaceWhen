@@ -60,7 +60,7 @@ function images(){
         return JSON.parse(localStorage[imgs])
 
     } catch(e) {
-        console.log(e)
+        console.log(e.toString())
         return {}
     }
 }
@@ -71,7 +71,16 @@ function replacer(x){
     var is = images()
 
     for (var k in is) {
-        x = x.replace(RegExp(k, 'g'), "[img]" + is[k] + "[/img]")
+        log(k)
+
+        var ek = k.replace(/([^a-zA-Z0-9])/g, "\\$1")
+
+        try {
+            x = x.replace(RegExp(ek, 'g'), "[img]" + is[k] + "[/img]")
+
+        } catch(e) {
+            log(e.toString())
+        }
     }
 
     return x
@@ -123,9 +132,12 @@ function removeEmoticon(e){
         var e = document.getElementById("emot_list")
         var es = e.children
 
-        for (var i = 0; i < es; i++)
+        for (var i = 0; i < es; i++) {
+            log(es[i].children[0].title)
+
             if (es[i].children[0].title === k)
                 es[i].parentNode.removeChild(es[i])
+        }
     }
 
     localStorage[imgs] = JSON.stringify(is)
@@ -133,6 +145,16 @@ function removeEmoticon(e){
 
 // thread :: IO ()
 function thread(){
+    log("Thread page")
+
+    var txt = document.querySelector("#c_post textarea")
+
+    txt.addEventListener("keydown", function(e){
+        if (e.keyCode === 32) {
+            txt.value = replacer(txt.value)
+            log("click!!!")
+        }
+    })
 }
 
 // post :: IO ()
@@ -174,9 +196,11 @@ function post(){
     var btr = document.getElementById("c_postbtn")
     var btn = btr.children[0].children[0]
 
-    // TODO make this more accurate
-    btn.addEventListener("click", function(e){
-        txt.value = replacer(txt.value)
+    txt.addEventListener("keydown", function(e){
+        if (e.keyCode === 32) {
+            txt.value = replacer(txt.value)
+            log("click!!!")
+        }
     })
 }
 
